@@ -28,7 +28,15 @@ for entry in feed.entries:
     file_name += '.md'
     file_path = os.path.join(posts_dir, file_name)
 
-    # 파일이 이미 존재하지 않으면 생성
-    if not os.path.exists(file_path):
+    new_content = entry.description
+
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            old_content = file.read()
+    else:
+        old_content = None
+
+    # 파일이 없거나 Velog 글 내용이 바뀌었으면 업데이트
+    if old_content != new_content:
         with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(entry.description)  # 글 내용을 파일에 작성
+            file.write(new_content)  # 글 내용을 파일에 작성
