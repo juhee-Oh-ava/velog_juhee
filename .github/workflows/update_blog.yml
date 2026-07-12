@@ -32,8 +32,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'juhee-Oh-ava'
+          git config --global user.email '218166340+juhee-Oh-ava@users.noreply.github.com'
           git add velog-posts
           if ! git diff --cached --quiet; then
             git commit -m "Update velog posts"
