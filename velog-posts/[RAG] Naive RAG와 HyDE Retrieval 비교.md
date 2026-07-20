@@ -1,5 +1,5 @@
 <h2 id="1-rag란-무엇인가">1. RAG란 무엇인가?</h2>
-<p>RAG는 Retrieval-Augmented Generation의 약자로, <strong>검색 기반 생성 방식</strong>이다.</p>
+<p>RAG(Retrieval-Augmented Generation)는 <strong>검색 기반 생성 방식</strong>이다.</p>
 <p>LLM이 질문에 바로 답변하도록 하는 것이 아니라, 먼저 외부 문서에서 관련 정보를 검색한 뒤, 그 검색 결과를 프롬프트에 넣어 최종 답변을 생성한다.</p>
 <p>기본 흐름은 다음과 같다.</p>
 <pre><code class="language-text">사용자 질문
@@ -262,35 +262,7 @@ HyDE retrieval 전체 시간</code></pre>
 
     # 응답 content를 문자열로 변환하여 반환한다.
     return stringify_llm_content(response.content)</code></pre>
-<h2 id="13-naive-rag와-hyde의-시간-측정-기준">13. Naive RAG와 HyDE의 시간 측정 기준</h2>
-<p>Naive RAG에서는 다음 시간을 따로 측정한다.</p>
-<pre><code class="language-text">query_embedding_sec
-사용자 질문을 embedding하는 데 걸린 시간
-
-vector_search_sec
-Chroma Vector DB에서 검색하는 데 걸린 시간
-
-retrieval_total_sec
-질문 embedding과 vector search를 합친 전체 retrieval 시간</code></pre>
-<p>HyDE에서는 다음 시간을 따로 측정한다.</p>
-<pre><code class="language-text">hyde_generation_sec
-LLM이 가상 문서를 생성하는 데 걸린 시간
-
-hyde_embedding_sec
-가상 문서를 embedding하는 데 걸린 시간
-
-vector_search_sec
-Chroma Vector DB에서 검색하는 데 걸린 시간
-
-retrieval_total_sec
-가상 문서 생성, embedding, vector search를 합친 전체 retrieval 시간</code></pre>
-<p>최종 답변 생성까지 측정할 경우 다음 항목도 추가된다.</p>
-<pre><code class="language-text">answer_generation_sec
-검색 결과를 바탕으로 최종 답변을 생성하는 시간
-
-end_to_end_sec
-사용자 질문 입력부터 최종 답변 생성까지 걸린 전체 시간</code></pre>
-<h2 id="14-naive-rag와-hyde의-차이">14. Naive RAG와 HyDE의 차이</h2>
+<h2 id="13-naive-rag와-hyde의-차이">13. Naive RAG와 HyDE의 차이</h2>
 <p>Naive RAG는 질문 자체를 검색에 사용한다.</p>
 <pre><code class="language-text">질문
 → 질문 embedding
@@ -316,7 +288,7 @@ embedding 호출 1회
 HyDE + answer generation
 LLM 호출 2회
 embedding 호출 1회</code></pre>
-<h2 id="15-보충-설명-시간-측정-구조">15. 보충 설명: 시간 측정 구조</h2>
+<h2 id="14-보충-설명-시간-측정-구조">14. 보충 설명: 시간 측정 구조</h2>
 <p>아래 그림처럼 보면 이해하기 쉽다.</p>
 <pre><code class="language-text">Naive RAG
 
@@ -358,7 +330,7 @@ retrieval_total_sec = hyde_generation_sec + hyde_embedding_sec + vector_search_s
 <p>이처럼 Vector DB 자체의 검색 속도만 비교하려면 <code>vector_search_sec</code>를 보면 된다.</p>
 <p>하지만 사용자가 실제로 체감하는 검색 준비 시간까지 비교하려면 <code>retrieval_total_sec</code>를 봐야 한다.</p>
 <p>최종 답변 생성까지 포함한 서비스 관점의 시간은 <code>end_to_end_sec</code>를 보면 된다.</p>
-<h2 id="16-마무리-정리">16. 마무리 정리</h2>
+<h2 id="15-마무리-정리">15. 마무리 정리</h2>
 <p>Naive RAG는 사용자의 질문을 그대로 embedding하여 Vector DB에서 검색하는 가장 기본적인 방식이다.</p>
 <p>HyDE는 질문을 바로 검색하지 않고, 먼저 LLM이 생성한 가상 문서를 검색 쿼리로 사용하는 방식이다.</p>
 <p>HyDE는 질문의 의미를 확장해 검색 품질을 높일 수 있지만, LLM 호출이 추가되기 때문에 비용과 시간이 증가한다.</p>
